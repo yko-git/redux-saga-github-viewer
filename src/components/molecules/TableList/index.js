@@ -111,6 +111,7 @@ export default function TableList() {
                   type="checkbox"
                   checked={allCheck}
                   onClick={allChecked}
+                  readOnly
                 ></input>
               </TableTh>
               <TableTh></TableTh>
@@ -148,6 +149,7 @@ export default function TableList() {
                         e.stopPropagation();
                         changeCheckbox(value.id);
                       }}
+                      readOnly
                     />
                   </TableTd>
                   <TableTd $width>{value.title}</TableTd>
