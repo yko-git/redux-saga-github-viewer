@@ -92,8 +92,8 @@ const ModalBlock = () => {
 
   const [id, setId] = useState(form.id);
   const [title, setTitle] = useState(form.title);
-  const [text, setText] = useState(form.text);
-  const [status, setIssueStatus] = useState(form.status);
+  const [text, setText] = useState(form.body);
+  const [status, setIssueStatus] = useState(form.state);
 
   const dispatch = useDispatch();
 
@@ -144,7 +144,7 @@ const ModalBlock = () => {
               <TextAreaField>
                 <Textarea
                   placeholder="説明を入力してください"
-                  defaultValue={form.text}
+                  defaultValue={form.body}
                   onChange={handleInputTextChange}
                 ></Textarea>
               </TextAreaField>
@@ -159,7 +159,7 @@ const ModalBlock = () => {
                 <select
                   id="status"
                   name="status"
-                  defaultValue={form.status}
+                  defaultValue={form.state}
                   onChange={handleSelectForm}
                 >
                   <option value="Open">Open</option>

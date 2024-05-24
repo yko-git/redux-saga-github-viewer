@@ -1,36 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Octokit } from "octokit";
-
-const octokit = new Octokit({
-  auth: process.env.TOKEN,
-});
-
-const result = await octokit.paginate.iterator(
-  "GET /repos/{owner}/{repo}/issues",
-  {
-    owner: "yko-git",
-    repo: "redux-saga-github-viewer",
-  }
-);
-
-let issueList = [];
-for await (const { data } of result) {
-  for (const issue of data) {
-    issueList = [
-      ...issueList,
-      {
-        id: issue.id,
-        title: issue.title,
-        text: issue.body,
-        status: issue.state,
-        author: issue.user.login,
-        createday: issue.updated_at,
-        updateday: issue.updated_at,
-      },
-    ];
-  }
-}
-console.log(issueList);
+import issueData from "../../utils/issueData";
 
 const now = new Date();
 const year = now.getFullYear();
@@ -39,7 +8,7 @@ const date = now.getDate().toString().padStart(2, 0);
 
 const todo = createSlice({
   name: "todos",
-  initialState: issueList,
+  initialState: issueData,
   reducers: {
     addTodo: (state, action) => {
       const newId = crypto.getRandomValues(new Uint16Array(10));

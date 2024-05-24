@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteTodo } from "../../../redux/todoSlice";
 import { openModal } from "../../../redux/modalSlice";
+import axios from "axios";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -50,13 +51,24 @@ const TableTr = styled.tr`
 
 export default function TableList() {
   const [filterVal, setFilterVal] = useState("");
-
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
   const todos = useSelector((state) => state.todos);
-
   const dispatch = useDispatch();
+
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
+      )
+      .then((response) => {
+        setPost(response.data);
+      });
+  }, []);
+  if (!post) return null;
 
   const changeCheckbox = (id) => {
     // checkboxの解除の処理
@@ -122,7 +134,7 @@ export default function TableList() {
             </tr>
           </thead>
           <tbody>
-            {todos
+            {post
               .filter((value) => value.title.indexOf(filterVal) !== -1)
               .map((value) => (
                 <TableTr
@@ -132,8 +144,8 @@ export default function TableList() {
                       openModal({
                         id: value.id,
                         title: value.title,
-                        text: value.text,
-                        status: value.status,
+                        text: value.body,
+                        status: value.state,
                       })
                     );
                   }}
@@ -153,10 +165,10 @@ export default function TableList() {
                     />
                   </TableTd>
                   <TableTd $width>{value.title}</TableTd>
-                  <TableTd>{value.status}</TableTd>
-                  <TableTd>{value.author}</TableTd>
-                  <TableTd>{value.createday}</TableTd>
-                  <TableTd>{value.updateday}</TableTd>
+                  <TableTd>{value.state}</TableTd>
+                  <TableTd>{value.user.login}</TableTd>
+                  <TableTd>{value.updated_at}</TableTd>
+                  <TableTd>{value.updated_at}</TableTd>
                 </TableTr>
               ))}
           </tbody>
