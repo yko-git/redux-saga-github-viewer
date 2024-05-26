@@ -73,15 +73,6 @@ export default function TableList() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get(
-        "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
-      );
-      setPost(res.data);
-    })();
-  }, []);
-
   if (!post) return null;
 
   const changeCheckbox = (id) => {
