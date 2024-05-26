@@ -60,14 +60,14 @@ export default function TableList() {
   const [post, setPost] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(
+    (async () => {
+      const res = await axios.get(
         "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
-      )
-      .then((response) => {
-        setPost(response.data);
-      });
+      );
+      setPost(res.data);
+    })();
   }, []);
+
   if (!post) return null;
 
   const changeCheckbox = (id) => {
