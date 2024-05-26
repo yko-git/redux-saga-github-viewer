@@ -60,6 +60,20 @@ export default function TableList() {
   const [post, setPost] = useState(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
+        );
+        setPost(res.data);
+      } catch (e) {
+        console.log("error", e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     (async () => {
       const res = await axios.get(
         "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
