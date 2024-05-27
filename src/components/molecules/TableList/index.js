@@ -5,7 +5,7 @@ import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteTodo } from "../../../redux/todoSlice";
 import { openModal } from "../../../redux/modalSlice";
-import axios from "axios";
+import { getFetchItems } from "../../../redux/fetchSlice";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -57,24 +57,6 @@ export default function TableList() {
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
-  const [post, setPost] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
-        );
-        setPost(res.data);
-      } catch (e) {
-        console.log("error", e);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (!post) return null;
-
   const changeCheckbox = (id) => {
     // checkboxの解除の処理
     if (checked[id]) {
@@ -103,6 +85,12 @@ export default function TableList() {
     setChecked(newTodosObj);
     setAllCheck(true);
   };
+
+  const { fetchItems } = useSelector((state) => state.fetchItem);
+
+  useEffect(() => {
+    dispatch(getFetchItems());
+  }, []);
 
   return (
     <>
@@ -139,7 +127,7 @@ export default function TableList() {
             </tr>
           </thead>
           <tbody>
-            {post
+            {fetchItems
               .filter((value) => value.title.indexOf(filterVal) !== -1)
               .map((value) => (
                 <TableTr
@@ -149,7 +137,7 @@ export default function TableList() {
                       openModal({
                         id: value.id,
                         title: value.title,
-                        text: value.body,
+                        body: value.body,
                         status: value.state,
                       })
                     );
@@ -172,7 +160,7 @@ export default function TableList() {
                   <TableTd $width>{value.title}</TableTd>
                   <TableTd>{value.state}</TableTd>
                   <TableTd>{value.user.login}</TableTd>
-                  <TableTd>{value.updated_at}</TableTd>
+                  <TableTd>{value.created_at}</TableTd>
                   <TableTd>{value.updated_at}</TableTd>
                 </TableTr>
               ))}

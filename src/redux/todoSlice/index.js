@@ -43,5 +43,6 @@ const todo = createSlice({
     },
   },
 });
+
 export const { addTodo, updateTodo, deleteTodo } = todo.actions;
 export default todo.reducer;

@@ -92,22 +92,22 @@ const ModalBlock = () => {
 
   const [id, setId] = useState(form.id);
   const [title, setTitle] = useState(form.title);
-  const [text, setText] = useState(form.body);
+  const [body, setBody] = useState(form.body);
   const [status, setIssueStatus] = useState(form.state);
 
   const dispatch = useDispatch();
 
   const handleAddTodo = () => {
-    const newTodo = { id, title, text, status };
+    const newTodo = { id, title, body, status };
     dispatch(addTodo(newTodo));
     setId("");
     setTitle("");
-    setText("");
+    setBody("");
     dispatch(closeModal());
   };
 
   const handleUpdateTodo = () => {
-    const newTodo = { id, title, text, status };
+    const newTodo = { id, title, body, status };
     dispatch(updateTodo(newTodo));
     dispatch(closeModal());
   };
@@ -116,7 +116,7 @@ const ModalBlock = () => {
     setTitle(e.target.value);
   };
   const handleInputTextChange = (e) => {
-    setText(e.target.value);
+    setBody(e.target.value);
   };
 
   const handleSelectForm = (e) => {
