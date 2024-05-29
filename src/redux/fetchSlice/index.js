@@ -2,16 +2,19 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  fetchItems: [],
+  items: [],
 };
+
+const instance = axios.create({
+  baseURL:
+    "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues",
+});
 
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
     try {
-      const res = await axios(
-        "https://api.github.com/repos/yko-git/redux-saga-github-viewer/issues"
-      );
+      const res = await instance();
 
       return res.data;
     } catch (e) {
@@ -28,8 +31,8 @@ const fetchSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getFetchItems.fulfilled, (state, action) => {
-      state.fetchItems = action.payload;
-      console.log(state.fetchItems);
+      state.items = action.payload;
+      console.log(state.items);
     });
   },
 });

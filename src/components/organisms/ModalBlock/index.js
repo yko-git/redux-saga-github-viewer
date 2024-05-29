@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import ButtonLink from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, updateTodo } from "../../../redux/todoSlice";
+import { addTodo, updateTodo } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 
 Modal.setAppElement("#root");

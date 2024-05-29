@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo } from "../../../redux/todoSlice";
+import { deleteTodo } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 import { getFetchItems } from "../../../redux/fetchSlice";
 
@@ -54,7 +54,7 @@ export default function TableList() {
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
-  const todos = useSelector((state) => state.todos);
+  const issues = useSelector((state) => state.issues);
   const dispatch = useDispatch();
 
   const changeCheckbox = (id) => {
@@ -79,14 +79,14 @@ export default function TableList() {
       setChecked({});
       return;
     }
-    const newTodosObj = todos.reduce((acc, value) => {
+    const newTodosObj = issues.reduce((acc, value) => {
       return { ...acc, [value.id]: true };
     }, {});
     setChecked(newTodosObj);
     setAllCheck(true);
   };
 
-  const { fetchItems } = useSelector((state) => state.fetchItem);
+  const { items } = useSelector((state) => state.fetchItem);
 
   useEffect(() => {
     dispatch(getFetchItems());
@@ -127,7 +127,7 @@ export default function TableList() {
             </tr>
           </thead>
           <tbody>
-            {fetchItems
+            {items
               .filter((value) => value.title.indexOf(filterVal) !== -1)
               .map((value) => (
                 <TableTr
