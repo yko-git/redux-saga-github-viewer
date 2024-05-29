@@ -6,8 +6,8 @@ const year = now.getFullYear();
 const month = now.getMonth() + 1;
 const date = now.getDate().toString().padStart(2, 0);
 
-const todo = createSlice({
-  name: "todos",
+const issue = createSlice({
+  name: "issues",
   initialState: issueData,
   reducers: {
     addTodo: (state, action) => {
@@ -18,7 +18,7 @@ const todo = createSlice({
         title: action.payload.title,
         text: action.payload.text,
         status: "Open",
-        author: "MITANI",
+        author: "yko-git",
         createday: `${date}-${month.toString().padStart(2, 0)}-${year}`,
         updateday: `${date}-${month.toString().padStart(2, 0)}-${year}`,
       };
@@ -26,11 +26,11 @@ const todo = createSlice({
       state.push(newTodo);
     },
     updateTodo: (state, action) => {
-      const todo = state.find((it) => it.id === action.payload.id);
-      if (todo) {
-        todo.title = action.payload.title;
-        todo.text = action.payload.text;
-        todo.status = action.payload.status;
+      const issue = state.find((it) => it.id === action.payload.id);
+      if (issue) {
+        issue.title = action.payload.title;
+        issue.text = action.payload.text;
+        issue.status = action.payload.status;
       }
     },
     deleteTodo: (state, action) => {
@@ -43,5 +43,6 @@ const todo = createSlice({
     },
   },
 });
-export const { addTodo, updateTodo, deleteTodo } = todo.actions;
-export default todo.reducer;
+
+export const { addTodo, updateTodo, deleteTodo } = issue.actions;
+export default issue.reducer;

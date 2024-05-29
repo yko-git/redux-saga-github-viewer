@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo } from "../../../redux/todoSlice";
+import { deleteTodo } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
+import { getFetchItems } from "../../../redux/fetchSlice";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -50,12 +51,10 @@ const TableTr = styled.tr`
 
 export default function TableList() {
   const [filterVal, setFilterVal] = useState("");
-
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
-  const todos = useSelector((state) => state.todos);
-
+  const issues = useSelector((state) => state.issues);
   const dispatch = useDispatch();
 
   const changeCheckbox = (id) => {
@@ -80,12 +79,18 @@ export default function TableList() {
       setChecked({});
       return;
     }
-    const newTodosObj = todos.reduce((acc, value) => {
+    const newTodosObj = issues.reduce((acc, value) => {
       return { ...acc, [value.id]: true };
     }, {});
     setChecked(newTodosObj);
     setAllCheck(true);
   };
+
+  const { items } = useSelector((state) => state.fetchItem);
+
+  useEffect(() => {
+    dispatch(getFetchItems());
+  }, []);
 
   return (
     <>
@@ -111,6 +116,7 @@ export default function TableList() {
                   type="checkbox"
                   checked={allCheck}
                   onClick={allChecked}
+                  readOnly
                 ></input>
               </TableTh>
               <TableTh></TableTh>
@@ -121,7 +127,7 @@ export default function TableList() {
             </tr>
           </thead>
           <tbody>
-            {todos
+            {items
               .filter((value) => value.title.indexOf(filterVal) !== -1)
               .map((value) => (
                 <TableTr
@@ -131,8 +137,8 @@ export default function TableList() {
                       openModal({
                         id: value.id,
                         title: value.title,
-                        text: value.text,
-                        status: value.status,
+                        body: value.body,
+                        status: value.state,
                       })
                     );
                   }}
@@ -148,13 +154,14 @@ export default function TableList() {
                         e.stopPropagation();
                         changeCheckbox(value.id);
                       }}
+                      readOnly
                     />
                   </TableTd>
                   <TableTd $width>{value.title}</TableTd>
-                  <TableTd>{value.status}</TableTd>
-                  <TableTd>{value.author}</TableTd>
-                  <TableTd>{value.createday}</TableTd>
-                  <TableTd>{value.updateday}</TableTd>
+                  <TableTd>{value.state}</TableTd>
+                  <TableTd>{value.user.login}</TableTd>
+                  <TableTd>{value.created_at}</TableTd>
+                  <TableTd>{value.updated_at}</TableTd>
                 </TableTr>
               ))}
           </tbody>

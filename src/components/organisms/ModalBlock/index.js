@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import ButtonLink from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, updateTodo } from "../../../redux/todoSlice";
+import { addTodo, updateTodo } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 
 Modal.setAppElement("#root");
@@ -92,22 +92,22 @@ const ModalBlock = () => {
 
   const [id, setId] = useState(form.id);
   const [title, setTitle] = useState(form.title);
-  const [text, setText] = useState(form.text);
-  const [status, setIssueStatus] = useState(form.status);
+  const [body, setBody] = useState(form.body);
+  const [status, setIssueStatus] = useState(form.state);
 
   const dispatch = useDispatch();
 
   const handleAddTodo = () => {
-    const newTodo = { id, title, text, status };
+    const newTodo = { id, title, body, status };
     dispatch(addTodo(newTodo));
     setId("");
     setTitle("");
-    setText("");
+    setBody("");
     dispatch(closeModal());
   };
 
   const handleUpdateTodo = () => {
-    const newTodo = { id, title, text, status };
+    const newTodo = { id, title, body, status };
     dispatch(updateTodo(newTodo));
     dispatch(closeModal());
   };
@@ -116,7 +116,7 @@ const ModalBlock = () => {
     setTitle(e.target.value);
   };
   const handleInputTextChange = (e) => {
-    setText(e.target.value);
+    setBody(e.target.value);
   };
 
   const handleSelectForm = (e) => {
@@ -144,7 +144,7 @@ const ModalBlock = () => {
               <TextAreaField>
                 <Textarea
                   placeholder="説明を入力してください"
-                  defaultValue={form.text}
+                  defaultValue={form.body}
                   onChange={handleInputTextChange}
                 ></Textarea>
               </TextAreaField>
@@ -159,7 +159,7 @@ const ModalBlock = () => {
                 <select
                   id="status"
                   name="status"
-                  defaultValue={form.status}
+                  defaultValue={form.state}
                   onChange={handleSelectForm}
                 >
                   <option value="Open">Open</option>
