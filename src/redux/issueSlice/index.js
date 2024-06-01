@@ -1,46 +1,106 @@
-import { createSlice } from "@reduxjs/toolkit";
-import issueData from "../../utils/issueData";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth() + 1;
-const date = now.getDate().toString().padStart(2, 0);
+const initialState = {
+  items: [],
+};
+
+const TOKEN = process.env.TOKEN;
+
+const instance = axios.create({
+  baseURL: "https://api.github.com/repos/yko-git/redux-saga-github-viewer",
+
+  headers: {
+    Authorization: TOKEN,
+    Accept: "application/vnd.github.v3+json",
+  },
+});
+
+export const getFetchItems = createAsyncThunk(
+  "fetchItem/getFetchItems",
+  async () => {
+    try {
+      const res = await instance.get("/issues");
+
+      // console.log(res.data);
+      return res.data;
+    } catch (e) {
+      console.log("error", e);
+    }
+  }
+);
+
+export const addItems = createAsyncThunk("fetchItem/addItems", async () => {
+  try {
+    const res = await instance.post("/issues", { title: "test" });
+    console.log(res.data);
+    return res.data;
+  } catch (e) {
+    console.log("error", e);
+  }
+});
 
 const issue = createSlice({
   name: "issues",
-  initialState: issueData,
+  initialState,
   reducers: {
-    addTodo: (state, action) => {
-      const newId = crypto.getRandomValues(new Uint16Array(10));
+    // addTodo: (state, action) => {
+    //   state.items.push(action.payload);
+    //   console.log(state.items);
+    // },
+    // updateTodo: (state, action) => {
+    //   console.log(action.payload.title + "action.payload");
+    //   const issue = state.find((it) => it.id === action.payload.id);
+    //   state.items.title = action.payload.items;
+    //   if (issue) {
+    //     state.issue.title = state.items
+    //     state.issue.body = action.payload.body;
+    //     state.issue.status = action.payload.status;
+    //   }
+    // },
+    // deleteTodo: (state, action) => {
+    //   Object.keys(action.payload).forEach((id) => {
+    //     const index = state.findIndex((it) => it.id === id);
+    //     if (index !== -1) {
+    //       state.splice(index, 1);
+    //     }
+    //   });
+    // },
+  },
+  extraReducers: (builder) => {
+    builder
+      // getFetchItems
+      .addCase(getFetchItems.pending, (state) => {
+        state.status = "pending";
+        console.log(state.status);
+      })
+      .addCase(getFetchItems.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.status = "fulfilled";
+        console.log(state.status);
+      })
 
-      const newTodo = {
-        id: newId.join(""),
-        title: action.payload.title,
-        text: action.payload.text,
-        status: "Open",
-        author: "yko-git",
-        createday: `${date}-${month.toString().padStart(2, 0)}-${year}`,
-        updateday: `${date}-${month.toString().padStart(2, 0)}-${year}`,
-      };
+      .addCase(getFetchItems.rejected, (state, action) => {
+        state.status = "failed";
+        console.log(state.status);
+        state.error = action.error.message;
+      })
 
-      state.push(newTodo);
-    },
-    updateTodo: (state, action) => {
-      const issue = state.find((it) => it.id === action.payload.id);
-      if (issue) {
-        issue.title = action.payload.title;
-        issue.text = action.payload.text;
-        issue.status = action.payload.status;
-      }
-    },
-    deleteTodo: (state, action) => {
-      Object.keys(action.payload).forEach((id) => {
-        const index = state.findIndex((it) => it.id === id);
-        if (index !== -1) {
-          state.splice(index, 1);
-        }
+      // addItems
+      .addCase(addItems.pending, (state, action) => {
+        state.status = "addItems:pending";
+      })
+      .addCase(addItems.fulfilled, (state, action) => {
+        state.status = "addItems:fulfilled";
+        state.items.push(action.payload);
+        // state.items.push({ title: "aiu" });
+        console.log(state.items);
+      })
+
+      .addCase(addItems.rejected, (state, action) => {
+        state.status = "addItems:failed";
+        state.error = action.error.message;
       });
-    },
   },
 });
 

@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo } from "../../../redux/issueSlice";
+import { deleteTodo, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
-import { getFetchItems } from "../../../redux/fetchSlice";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -86,8 +85,7 @@ export default function TableList() {
     setAllCheck(true);
   };
 
-  const { items } = useSelector((state) => state.fetchItem);
-
+  const { items } = useSelector((state) => state.issues);
   useEffect(() => {
     dispatch(getFetchItems());
   }, []);
@@ -159,7 +157,10 @@ export default function TableList() {
                   </TableTd>
                   <TableTd $width>{value.title}</TableTd>
                   <TableTd>{value.state}</TableTd>
-                  <TableTd>{value.user.login}</TableTd>
+                  <TableTd>
+                    yko-git
+                    {/* {value.login} */}
+                  </TableTd>
                   <TableTd>{value.created_at}</TableTd>
                   <TableTd>{value.updated_at}</TableTd>
                 </TableTr>
