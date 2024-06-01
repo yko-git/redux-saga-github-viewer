@@ -157,10 +157,7 @@ export default function TableList() {
                   </TableTd>
                   <TableTd $width>{value.title}</TableTd>
                   <TableTd>{value.state}</TableTd>
-                  <TableTd>
-                    yko-git
-                    {/* {value.login} */}
-                  </TableTd>
+                  <TableTd>{value.user.login}</TableTd>
                   <TableTd>{value.created_at}</TableTd>
                   <TableTd>{value.updated_at}</TableTd>
                 </TableTr>

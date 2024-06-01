@@ -30,10 +30,13 @@ export const getFetchItems = createAsyncThunk(
   }
 );
 
-export const addItems = createAsyncThunk("fetchItem/addItems", async () => {
+export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
   try {
-    const res = await instance.post("/issues", { title: "test" });
-    console.log(res.data);
+    const res = await instance.post("/issues", {
+      title: data.title,
+      body: data.body,
+    });
+    console.log(data);
     return res.data;
   } catch (e) {
     console.log("error", e);
