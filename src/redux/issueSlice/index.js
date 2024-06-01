@@ -5,13 +5,13 @@ const initialState = {
   items: [],
 };
 
-const TOKEN = process.env.TOKEN;
+const TOKEN = process.env.REACT_APP_TOKEN;
 
 const instance = axios.create({
   baseURL: "https://api.github.com/repos/yko-git/redux-saga-github-viewer",
 
   headers: {
-    Authorization: TOKEN,
+    Authorization: `token ${TOKEN}`,
     Accept: "application/vnd.github.v3+json",
   },
 });
