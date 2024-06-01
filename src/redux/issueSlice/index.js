@@ -16,13 +16,12 @@ const instance = axios.create({
   },
 });
 
+// getFetchItems
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
     try {
       const res = await instance.get("/issues");
-
-      // console.log(res.data);
       return res.data;
     } catch (e) {
       console.log("error", e);
@@ -30,6 +29,7 @@ export const getFetchItems = createAsyncThunk(
   }
 );
 
+// addItems
 export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
   try {
     const res = await instance.post("/issues", {
@@ -43,6 +43,25 @@ export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
   }
 });
 
+// addItems
+export const updateItems = createAsyncThunk(
+  "fetchItem/updateItems",
+  async (data) => {
+    try {
+      const res = await instance.patch(`/issues/${data.id}`, {
+        title: data.title,
+        body: data.body,
+      });
+
+      console.log(res.data);
+      return res.data;
+    } catch (e) {
+      console.log("error", e);
+    }
+  }
+);
+
+// createSlice
 const issue = createSlice({
   name: "issues",
   initialState,
@@ -96,12 +115,30 @@ const issue = createSlice({
       .addCase(addItems.fulfilled, (state, action) => {
         state.status = "addItems:fulfilled";
         state.items.push(action.payload);
-        // state.items.push({ title: "aiu" });
         console.log(state.items);
       })
-
       .addCase(addItems.rejected, (state, action) => {
         state.status = "addItems:failed";
+        state.error = action.error.message;
+      })
+
+      // updateItems
+      .addCase(updateItems.pending, (state, action) => {
+        state.status = "updateItems:pending";
+      })
+      .addCase(updateItems.fulfilled, (state, action) => {
+        state.status = "updateItems:fulfilled";
+        console.log(action.payload);
+        // const issue = state.items.find((it) => it.id === action.payload.id);
+        // state.items.title = action.payload.items;
+        // if (issue) {
+        // state.issue.title = state.items;
+        // state.issue.body = action.payload.body;
+        // state.issue.status = action.payload.status;
+        // }
+      })
+      .addCase(updateItems.rejected, (state, action) => {
+        state.status = "updateItems:failed";
         state.error = action.error.message;
       });
   },

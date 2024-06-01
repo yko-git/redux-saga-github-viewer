@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import ButtonLink from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, updateTodo, addItems } from "../../../redux/issueSlice";
+import { updateItems, addItems } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 
 Modal.setAppElement("#root");
@@ -102,7 +102,6 @@ const ModalBlock = () => {
   const handleAddTodo = () => {
     const newTodo = { id, title, body, status };
     dispatch(addItems(newTodo));
-    // dispatch(addTodo(newTodo));
     setId("");
     setTitle("");
     setBody("");
@@ -111,7 +110,7 @@ const ModalBlock = () => {
 
   const handleUpdateTodo = () => {
     const newTodo = { id, title, body, status };
-    dispatch(updateTodo(newTodo));
+    dispatch(updateItems(newTodo));
     dispatch(closeModal());
   };
 

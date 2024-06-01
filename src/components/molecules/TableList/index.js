@@ -133,7 +133,7 @@ export default function TableList() {
                   onClick={() => {
                     dispatch(
                       openModal({
-                        id: value.id,
+                        id: value.number,
                         title: value.title,
                         body: value.body,
                         status: value.state,
