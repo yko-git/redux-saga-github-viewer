@@ -48,9 +48,11 @@ export const updateItems = createAsyncThunk(
   "fetchItem/updateItems",
   async (data) => {
     try {
+      console.log(data);
       const res = await instance.patch(`/issues/${data.id}`, {
         title: data.title,
         body: data.body,
+        state: data.status,
       });
 
       console.log(res.data);
