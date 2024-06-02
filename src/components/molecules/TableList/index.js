@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo, getFetchItems } from "../../../redux/issueSlice";
+import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 
 const FilterBlocks = styled.div`
@@ -53,8 +53,8 @@ export default function TableList() {
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
-  const issues = useSelector((state) => state.issues);
   const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.issues);
 
   const changeCheckbox = (id) => {
     // checkboxの解除の処理
@@ -66,10 +66,11 @@ export default function TableList() {
     }
     setChecked({ ...checked, [id]: true });
   };
-
   const deleteChecked = () => {
-    dispatch(deleteTodo(checked));
-    setAllCheck(false);
+    if (Object.keys(checked).length !== 0) {
+      dispatch(closeItems(checked));
+      setAllCheck(false);
+    }
   };
 
   const allChecked = () => {
@@ -78,14 +79,13 @@ export default function TableList() {
       setChecked({});
       return;
     }
-    const newTodosObj = issues.reduce((acc, value) => {
-      return { ...acc, [value.id]: true };
+    const newTodosObj = items.reduce((acc, value) => {
+      return { ...acc, [value.number]: true };
     }, {});
     setChecked(newTodosObj);
     setAllCheck(true);
   };
 
-  const { items } = useSelector((state) => state.issues);
   useEffect(() => {
     dispatch(getFetchItems());
   }, []);
@@ -132,7 +132,7 @@ export default function TableList() {
               )
               .map((value) => (
                 <TableTr
-                  key={value.id}
+                  key={value.number}
                   onClick={() => {
                     dispatch(
                       openModal({
@@ -146,14 +146,14 @@ export default function TableList() {
                 >
                   <TableTd $minwidth>
                     <input
-                      id={value.id}
+                      id={value.number}
                       value={value.title}
                       name={value.title}
                       type="checkbox"
-                      checked={checked[value.id] || allCheck}
+                      checked={checked[value.number] || allCheck}
                       onClick={(e) => {
                         e.stopPropagation();
-                        changeCheckbox(value.id);
+                        changeCheckbox(value.number);
                       }}
                       readOnly
                     />

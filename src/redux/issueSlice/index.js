@@ -62,6 +62,28 @@ export const updateItems = createAsyncThunk(
   }
 );
 
+// closeItems
+export const closeItems = createAsyncThunk(
+  "fetchItem/closeItems",
+  async (data) => {
+    try {
+      const checkedItems = Object.keys(data);
+      for (let i = 0; i < checkedItems.length; i++) {
+        console.log(Number(checkedItems[i]));
+        const closeList = await instance.patch(
+          `/issues/${Number(checkedItems[i])}`,
+          {
+            state: "closed",
+          }
+        );
+        return closeList;
+      }
+    } catch (e) {
+      console.log("error", e);
+    }
+  }
+);
+
 // createSlice
 const issue = createSlice({
   name: "issues",
@@ -118,9 +140,27 @@ const issue = createSlice({
         state.status = "updateItems:failed";
         console.log(state.status);
         state.error = action.error.message;
+      })
+
+      // closeItems
+      .addCase(closeItems.pending, (state, action) => {
+        state.status = "closeItems:pending";
+        console.log(state.status);
+      })
+      .addCase(closeItems.fulfilled, (state, action) => {
+        state.status = "closeItems:fulfilled";
+        state.items = state.items.map((value) =>
+          value.id === action.payload.id ? action.payload : value
+        );
+        console.log(state.status);
+      })
+      .addCase(closeItems.rejected, (state, action) => {
+        state.status = "closeItems:failed";
+        console.log(state.status);
+        state.error = action.error.message;
       });
   },
 });
 
-export const { addTodo, updateTodo, deleteTodo } = issue.actions;
+export const { deleteTodo } = issue.actions;
 export default issue.reducer;
