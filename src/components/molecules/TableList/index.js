@@ -126,7 +126,10 @@ export default function TableList() {
           </thead>
           <tbody>
             {items
-              .filter((value) => value.title.indexOf(filterVal) !== -1)
+              .filter(
+                (value) =>
+                  value.title.indexOf(filterVal) !== -1 && !value.pull_request
+              )
               .map((value) => (
                 <TableTr
                   key={value.id}

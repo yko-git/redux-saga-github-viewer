@@ -22,6 +22,7 @@ export const getFetchItems = createAsyncThunk(
   async () => {
     try {
       const res = await instance.get("/issues");
+      console.log(res.data);
       return res.data;
     } catch (e) {
       console.log("error", e);
@@ -65,30 +66,7 @@ export const updateItems = createAsyncThunk(
 const issue = createSlice({
   name: "issues",
   initialState,
-  reducers: {
-    // addTodo: (state, action) => {
-    //   state.items.push(action.payload);
-    //   console.log(state.items);
-    // },
-    // updateTodo: (state, action) => {
-    //   console.log(action.payload.title + "action.payload");
-    //   const issue = state.find((it) => it.id === action.payload.id);
-    //   state.items.title = action.payload.items;
-    //   if (issue) {
-    //     state.issue.title = state.items
-    //     state.issue.body = action.payload.body;
-    //     state.issue.status = action.payload.status;
-    //   }
-    // },
-    // deleteTodo: (state, action) => {
-    //   Object.keys(action.payload).forEach((id) => {
-    //     const index = state.findIndex((it) => it.id === id);
-    //     if (index !== -1) {
-    //       state.splice(index, 1);
-    //     }
-    //   });
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // getFetchItems
