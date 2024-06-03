@@ -70,13 +70,13 @@ export const closeItems = createAsyncThunk(
       const checkedItems = Object.keys(data);
       for (let i = 0; i < checkedItems.length; i++) {
         console.log(checkedItems[i]);
-        // const closeList = await instance.patch(
-        //   `/issues/${Number(checkedItems[i])}`,
-        //   {
-        //     state: "closed",
-        //   }
-        // );
-        // return closeList;
+        const closeList = await instance.patch(
+          `/issues/${Number(checkedItems[i])}`,
+          {
+            state: "closed",
+          }
+        );
+        return closeList;
       }
     } catch (e) {
       console.log("error", e);
