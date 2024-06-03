@@ -67,16 +67,15 @@ export const closeItems = createAsyncThunk(
   "fetchItem/closeItems",
   async (data) => {
     try {
+      debugger;
       const checkedItems = Object.keys(data);
-      for (let i = 0; i < checkedItems.length; i++) {
-        console.log(checkedItems[i]);
-        const closeList = await instance.patch(
-          `/issues/${Number(checkedItems[i])}`,
-          {
-            state: "closed",
-          }
-        );
-        return closeList;
+      let closeList = {};
+      for await (const value of checkedItems) {
+        console.log(value);
+        closeList = await instance.patch(`/issues/${Number(value)}`, {
+          state: "closed",
+        });
+        return closeList.data;
       }
     } catch (e) {
       console.log("error", e);
@@ -152,7 +151,7 @@ const issue = createSlice({
         state.items = state.items.map((value) =>
           value.id === action.payload.id ? action.payload : value
         );
-        console.log(state.status);
+        console.log(action.payload);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
