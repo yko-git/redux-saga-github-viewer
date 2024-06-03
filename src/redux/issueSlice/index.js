@@ -22,8 +22,8 @@ export const getFetchItems = createAsyncThunk(
   async () => {
     try {
       const res = await instance.get("/issues");
-      console.log(res.data);
-      return res.data;
+      const newData = res.data.filter((value) => !value.pull_request);
+      return newData;
     } catch (e) {
       console.log("error", e);
     }
@@ -69,14 +69,14 @@ export const closeItems = createAsyncThunk(
     try {
       const checkedItems = Object.keys(data);
       for (let i = 0; i < checkedItems.length; i++) {
-        console.log(Number(checkedItems[i]));
-        const closeList = await instance.patch(
-          `/issues/${Number(checkedItems[i])}`,
-          {
-            state: "closed",
-          }
-        );
-        return closeList;
+        console.log(checkedItems[i]);
+        // const closeList = await instance.patch(
+        //   `/issues/${Number(checkedItems[i])}`,
+        //   {
+        //     state: "closed",
+        //   }
+        // );
+        // return closeList;
       }
     } catch (e) {
       console.log("error", e);
