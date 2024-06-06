@@ -73,6 +73,8 @@ export default function TableList() {
       dispatch(closeItems(checked));
       toast("ISSUEを削除しました");
       setAllCheck(false);
+      setChecked({});
+      dispatch(getFetchItems());
     }
   };
 
