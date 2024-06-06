@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import FilterForm from "../FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo } from "../../../redux/issueSlice";
+import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
-import { getFetchItems } from "../../../redux/fetchSlice";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -54,8 +53,8 @@ export default function TableList() {
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
-  const issues = useSelector((state) => state.issues);
   const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.issues);
 
   const changeCheckbox = (id) => {
     // checkboxの解除の処理
@@ -67,10 +66,11 @@ export default function TableList() {
     }
     setChecked({ ...checked, [id]: true });
   };
-
   const deleteChecked = () => {
-    dispatch(deleteTodo(checked));
-    setAllCheck(false);
+    if (Object.keys(checked).length !== 0) {
+      dispatch(closeItems(checked));
+      setAllCheck(false);
+    }
   };
 
   const allChecked = () => {
@@ -79,14 +79,12 @@ export default function TableList() {
       setChecked({});
       return;
     }
-    const newTodosObj = issues.reduce((acc, value) => {
-      return { ...acc, [value.id]: true };
+    const newTodosObj = items.reduce((acc, value) => {
+      return { ...acc, [value.number]: true };
     }, {});
     setChecked(newTodosObj);
     setAllCheck(true);
   };
-
-  const { items } = useSelector((state) => state.fetchItem);
 
   useEffect(() => {
     dispatch(getFetchItems());
@@ -131,11 +129,11 @@ export default function TableList() {
               .filter((value) => value.title.indexOf(filterVal) !== -1)
               .map((value) => (
                 <TableTr
-                  key={value.id}
+                  key={value.number}
                   onClick={() => {
                     dispatch(
                       openModal({
-                        id: value.id,
+                        id: value.number,
                         title: value.title,
                         body: value.body,
                         status: value.state,
@@ -145,14 +143,14 @@ export default function TableList() {
                 >
                   <TableTd $minwidth>
                     <input
-                      id={value.id}
+                      id={value.number}
                       value={value.title}
                       name={value.title}
                       type="checkbox"
-                      checked={checked[value.id] || allCheck}
+                      checked={checked[value.number] || allCheck}
                       onClick={(e) => {
                         e.stopPropagation();
-                        changeCheckbox(value.id);
+                        changeCheckbox(value.number);
                       }}
                       readOnly
                     />

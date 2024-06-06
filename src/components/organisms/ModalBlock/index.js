@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import ButtonLink from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, updateTodo } from "../../../redux/issueSlice";
+import { updateItems, addItems } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 
 Modal.setAppElement("#root");
@@ -97,9 +97,11 @@ const ModalBlock = () => {
 
   const dispatch = useDispatch();
 
+  // const { items } = useSelector((state) => state.issues);
+
   const handleAddTodo = () => {
     const newTodo = { id, title, body, status };
-    dispatch(addTodo(newTodo));
+    dispatch(addItems(newTodo));
     setId("");
     setTitle("");
     setBody("");
@@ -108,7 +110,7 @@ const ModalBlock = () => {
 
   const handleUpdateTodo = () => {
     const newTodo = { id, title, body, status };
-    dispatch(updateTodo(newTodo));
+    dispatch(updateItems(newTodo));
     dispatch(closeModal());
   };
 
