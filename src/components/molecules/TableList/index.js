@@ -5,6 +5,8 @@ import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -69,6 +71,7 @@ export default function TableList() {
   const deleteChecked = () => {
     if (Object.keys(checked).length !== 0) {
       dispatch(closeItems(checked));
+      toast("ISSUEを削除しました");
       setAllCheck(false);
     }
   };
@@ -92,6 +95,18 @@ export default function TableList() {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <FilterBlocks>
         <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
         <ButtonLinks>
@@ -126,7 +141,11 @@ export default function TableList() {
           </thead>
           <tbody>
             {items
-              .filter((value) => value.title.indexOf(filterVal) !== -1)
+              .filter(
+                (value) =>
+                  value.title.indexOf(filterVal) !== -1 &&
+                  value.state !== "closed"
+              )
               .map((value) => (
                 <TableTr
                   key={value.number}

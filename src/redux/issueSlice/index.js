@@ -37,7 +37,6 @@ export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
       title: data.title,
       body: data.body,
     });
-    console.log(data);
     return res.data;
   } catch (e) {
     console.log("error", e);
@@ -67,7 +66,6 @@ export const closeItems = createAsyncThunk(
   "fetchItem/closeItems",
   async (data) => {
     try {
-      debugger;
       const checkedItems = Object.keys(data);
       let closeList = {};
       for await (const value of checkedItems) {
