@@ -20,44 +20,32 @@ const instance = axios.create({
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
-    try {
-      const res = await instance.get("/issues");
-      const newData = res.data.filter((value) => !value.pull_request);
-      return newData;
-    } catch (e) {
-      console.log("error", e);
-    }
+    const res = await instance.get("/issues");
+    console.log(res.data);
+    const newData = res.data.filter((value) => !value.pull_request);
+    return newData;
   }
 );
 
 // addItems
 export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
-  try {
-    const res = await instance.post("/issues", {
-      title: data.title,
-      body: data.body,
-    });
-    return res.data;
-  } catch (e) {
-    console.log("error", e);
-  }
+  const res = await instance.post("/issues", {
+    title: data.title,
+    body: data.body,
+  });
+  return res.data;
 });
 
 // updateItems
 export const updateItems = createAsyncThunk(
   "fetchItem/updateItems",
   async (data) => {
-    try {
-      console.log(data);
-      const res = await instance.patch(`/issues/${data.id}`, {
-        title: data.title,
-        body: data.body,
-        state: data.status,
-      });
-      return res.data;
-    } catch (e) {
-      console.log("error", e);
-    }
+    const res = await instance.patch(`/issues/${data.id}`, {
+      title: data.title,
+      body: data.body,
+      state: data.status,
+    });
+    return res.data;
   }
 );
 
@@ -65,16 +53,12 @@ export const updateItems = createAsyncThunk(
 export const closeItems = createAsyncThunk(
   "fetchItem/closeItems",
   async (data) => {
-    try {
-      const checkedItems = Object.keys(data);
-      for await (const value of checkedItems) {
-        console.log(value);
-        await instance.patch(`/issues/${Number(value)}`, {
-          state: "closed",
-        });
-      }
-    } catch (e) {
-      console.log("error", e);
+    const checkedItems = Object.keys(data);
+    for await (const value of checkedItems) {
+      console.log(value);
+      await instance.patch(`/issues/${Number(value)}`, {
+        state: "closed",
+      });
     }
   }
 );
@@ -144,11 +128,7 @@ const issue = createSlice({
       })
       .addCase(closeItems.fulfilled, (state, action) => {
         state.status = "closeItems:fulfilled";
-        // state.items = state.items.map((value) =>
-        //   value.id === action.payload.id ? action.payload : value
-        // );
-
-        console.log(action.payload);
+        console.log(state.status);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
