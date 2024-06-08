@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   items: [],
@@ -96,11 +97,13 @@ const issue = createSlice({
         state.status = "addItems:fulfilled";
         state.items.push(action.payload);
         console.log(state.status);
+        toast.success("ISSUEを追加しました");
       })
       .addCase(addItems.rejected, (state, action) => {
         state.status = "addItems:failed";
         state.error = action.error.message;
         console.log(state.status);
+        toast.error("追加に失敗しました");
       })
 
       // updateItems
@@ -114,11 +117,13 @@ const issue = createSlice({
         state.items = state.items.map((value) =>
           value.id === action.payload.id ? action.payload : value
         );
+        toast.success("ISSUEを更新しました");
       })
       .addCase(updateItems.rejected, (state, action) => {
         state.status = "updateItems:failed";
         console.log(state.status);
         state.error = action.error.message;
+        toast.error("更新に失敗しました");
       })
 
       // closeItems
@@ -128,12 +133,14 @@ const issue = createSlice({
       })
       .addCase(closeItems.fulfilled, (state, action) => {
         state.status = "closeItems:fulfilled";
+        toast.success("ISSUEを削除しました");
         console.log(state.status);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
         console.log(state.status);
         state.error = action.error.message;
+        toast.error("削除に失敗しました");
       });
   },
 });

@@ -5,7 +5,7 @@ import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
@@ -50,6 +50,22 @@ const TableTr = styled.tr`
   }
 `;
 
+const StyledContainer = styled(ToastContainer)`
+  .Toastify__toast {
+    color: white;
+    border-radius: 0;
+  }
+  .Toastify__toast--success {
+    background-color: rgb(66, 195, 96);
+  }
+  .Toastify__toast--error {
+    background-color: red;
+  }
+  .Toastify__close-button {
+    color: white;
+  }
+`;
+
 export default function TableList() {
   const [filterVal, setFilterVal] = useState("");
   const [allCheck, setAllCheck] = useState(false);
@@ -71,7 +87,6 @@ export default function TableList() {
   const deleteChecked = () => {
     if (Object.keys(checked).length !== 0) {
       dispatch(closeItems(checked));
-      toast("ISSUEを削除しました");
       setAllCheck(false);
       setChecked({});
       dispatch(getFetchItems());
@@ -97,17 +112,17 @@ export default function TableList() {
 
   return (
     <>
-      <ToastContainer
+      <StyledContainer
         position="top-center"
         autoClose={5000}
-        hideProgressBar={false}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="colored"
       />
       <FilterBlocks>
         <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
