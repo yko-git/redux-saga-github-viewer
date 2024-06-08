@@ -52,17 +52,17 @@ const TableTr = styled.tr`
 
 const StyledContainer = styled(ToastContainer)`
   .Toastify__toast {
-    color: white;
+    color: #ffffff;
     border-radius: 0;
   }
   .Toastify__toast--success {
     background-color: rgb(66, 195, 96);
   }
   .Toastify__toast--error {
-    background-color: red;
+    background-color: rgb(215, 58, 73);
   }
   .Toastify__close-button {
-    color: white;
+    color: #ffffff;
   }
 `;
 
@@ -123,6 +123,7 @@ export default function TableList() {
         draggable
         pauseOnHover
         theme="colored"
+        icon={false}
       />
       <FilterBlocks>
         <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />

@@ -21,7 +21,9 @@ const instance = axios.create({
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
-    const res = await instance.get("/issues");
+    const res = await instance.get("/issues", {
+      icon: false,
+    });
     console.log(res.data);
     const newData = res.data.filter((value) => !value.pull_request);
     return newData;
@@ -97,13 +99,17 @@ const issue = createSlice({
         state.status = "addItems:fulfilled";
         state.items.push(action.payload);
         console.log(state.status);
-        toast.success("ISSUEを追加しました");
+        toast.success("ISSUEを追加しました", {
+          icon: false,
+        });
       })
       .addCase(addItems.rejected, (state, action) => {
         state.status = "addItems:failed";
         state.error = action.error.message;
         console.log(state.status);
-        toast.error("追加に失敗しました");
+        toast.error("追加に失敗しました", {
+          icon: false,
+        });
       })
 
       // updateItems
@@ -117,13 +123,17 @@ const issue = createSlice({
         state.items = state.items.map((value) =>
           value.id === action.payload.id ? action.payload : value
         );
-        toast.success("ISSUEを更新しました");
+        toast.success("ISSUEを更新しました", {
+          icon: false,
+        });
       })
       .addCase(updateItems.rejected, (state, action) => {
         state.status = "updateItems:failed";
         console.log(state.status);
         state.error = action.error.message;
-        toast.error("更新に失敗しました");
+        toast.error("更新に失敗しました", {
+          icon: false,
+        });
       })
 
       // closeItems
@@ -133,14 +143,18 @@ const issue = createSlice({
       })
       .addCase(closeItems.fulfilled, (state, action) => {
         state.status = "closeItems:fulfilled";
-        toast.success("ISSUEを削除しました");
+        toast.success("ISSUEを削除しました", {
+          icon: false,
+        });
         console.log(state.status);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
         console.log(state.status);
         state.error = action.error.message;
-        toast.error("削除に失敗しました");
+        toast.error("削除に失敗しました", {
+          icon: false,
+        });
       });
   },
 });
