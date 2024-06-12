@@ -143,21 +143,20 @@ const issue = createSlice({
       })
       .addCase(closeItems.fulfilled, (state, action) => {
         state.status = "closeItems:fulfilled";
-        toast.success("ISSUEを削除しました", {
-          icon: false,
-        });
+        // toast.success("ISSUEを削除しました", {
+        //   icon: false,
+        // });
         console.log(state.status);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
         console.log(state.status);
         state.error = action.error.message;
-        toast.error("削除に失敗しました", {
-          icon: false,
-        });
+        // toast.error("削除に失敗しました", {
+        //   icon: false,
+        // });
       });
   },
 });
 
-export const { deleteTodo } = issue.actions;
 export default issue.reducer;

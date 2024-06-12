@@ -5,7 +5,7 @@ import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
@@ -84,12 +84,21 @@ export default function TableList() {
     }
     setChecked({ ...checked, [id]: true });
   };
-  const deleteChecked = () => {
+  const deleteChecked = async () => {
     if (Object.keys(checked).length !== 0) {
-      dispatch(closeItems(checked));
-      setAllCheck(false);
-      setChecked({});
-      dispatch(getFetchItems());
+      try {
+        await dispatch(closeItems(checked));
+        setAllCheck(false);
+        setChecked({});
+        toast.success("ISSUEを削除しました", {
+          icon: false,
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error("削除に失敗しました", {
+          icon: false,
+        });
+      }
     }
   };
 
