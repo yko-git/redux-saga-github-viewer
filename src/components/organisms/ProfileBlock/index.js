@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserItems } from "../../../redux/userSlice";
 import styled from "styled-components";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   max-width: 896px;
@@ -24,7 +27,12 @@ const ProfileImage = styled.img`
 `;
 
 export default function ProfileBlock() {
-  const profile = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
+  useEffect(() => {
+    dispatch(getUserItems());
+  }, []);
+  console.log(user);
   return (
     <Wrapper>
       <h1>Profile</h1>
@@ -32,17 +40,35 @@ export default function ProfileBlock() {
         <BlockInner>
           <h4>プロフィール</h4>
           <div>
-            <ProfileImage src={profile.imageUrl} alt="プロフィール" />
+            <ProfileImage src={user.avatar_url} alt="プロフィール" />
           </div>
         </BlockInner>
         <BlockInner>
           <div>
             <h4>ユーザ名</h4>
-            <div>{profile.name}</div>
+            <div>{user.login}</div>
           </div>
           <div>
-            <h4>メールアドレス</h4>
-            <div>{profile.email}</div>
+            <h4>アカウントURL</h4>
+            <div>
+              <Link to={user.html_url}>{user.html_url}</Link>
+            </div>
+          </div>
+          <div>
+            <h4>フォロー数</h4>
+            <div>{user.following}</div>
+          </div>
+          <div>
+            <h4>フォロワー数</h4>
+            <div>{user.followers}</div>
+          </div>
+          <div>
+            <h4>パブリックレポジトリ数</h4>
+            <div>{user.public_repos}</div>
+          </div>
+          <div>
+            <h4>プライベートレポジトリ数</h4>
+            <div>{user.totalPrivateRepos}</div>
           </div>
         </BlockInner>
       </FlexBlock>
