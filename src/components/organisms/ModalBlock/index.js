@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateItems, addItems } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
+import { toast } from "react-toastify";
 
 Modal.setAppElement("#root");
 
@@ -97,21 +98,37 @@ const ModalBlock = () => {
 
   const dispatch = useDispatch();
 
-  // const { items } = useSelector((state) => state.issues);
-
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
-    dispatch(addItems(newTodo));
-    setId("");
-    setTitle("");
-    setBody("");
-    dispatch(closeModal());
+    try {
+      await dispatch(addItems(newTodo)).unwrap();
+      setId("");
+      setTitle("");
+      setBody("");
+      dispatch(closeModal());
+      toast.success("issueを作成しました", {
+        icon: false,
+      });
+    } catch (error) {
+      toast.error("作成に失敗しました", {
+        icon: false,
+      });
+    }
   };
 
-  const handleUpdateTodo = () => {
+  const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
-    dispatch(updateItems(newTodo));
-    dispatch(closeModal());
+    try {
+      await dispatch(updateItems(newTodo)).unwrap();
+      dispatch(closeModal());
+      toast.success("issueを更新しました", {
+        icon: false,
+      });
+    } catch (error) {
+      toast.error("更新に失敗しました", {
+        icon: false,
+      });
+    }
   };
 
   const handleInputChange = (e) => {

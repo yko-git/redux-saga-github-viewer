@@ -5,6 +5,8 @@ import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -48,6 +50,22 @@ const TableTr = styled.tr`
   }
 `;
 
+const StyledContainer = styled(ToastContainer)`
+  .Toastify__toast {
+    color: #ffffff;
+    border-radius: 0;
+  }
+  .Toastify__toast--success {
+    background-color: rgb(66, 195, 96);
+  }
+  .Toastify__toast--error {
+    background-color: rgb(215, 58, 73);
+  }
+  .Toastify__close-button {
+    color: #ffffff;
+  }
+`;
+
 export default function TableList() {
   const [filterVal, setFilterVal] = useState("");
   const [allCheck, setAllCheck] = useState(false);
@@ -66,10 +84,20 @@ export default function TableList() {
     }
     setChecked({ ...checked, [id]: true });
   };
-  const deleteChecked = () => {
+  const deleteChecked = async () => {
     if (Object.keys(checked).length !== 0) {
-      dispatch(closeItems(checked));
-      setAllCheck(false);
+      try {
+        await dispatch(closeItems(checked)).unwrap();
+        setAllCheck(false);
+        setChecked({});
+        toast.success("issueを削除しました", {
+          icon: false,
+        });
+      } catch (error) {
+        toast.error("削除に失敗しました", {
+          icon: false,
+        });
+      }
     }
   };
 
@@ -92,6 +120,19 @@ export default function TableList() {
 
   return (
     <>
+      <StyledContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        icon={false}
+      />
       <FilterBlocks>
         <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
         <ButtonLinks>
@@ -126,7 +167,11 @@ export default function TableList() {
           </thead>
           <tbody>
             {items
-              .filter((value) => value.title.indexOf(filterVal) !== -1)
+              .filter(
+                (value) =>
+                  value.title.indexOf(filterVal) !== -1 &&
+                  value.state !== "closed"
+              )
               .map((value) => (
                 <TableTr
                   key={value.number}

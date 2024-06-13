@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   items: [],
@@ -20,45 +21,34 @@ const instance = axios.create({
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
-    try {
-      const res = await instance.get("/issues");
-      const newData = res.data.filter((value) => !value.pull_request);
-      return newData;
-    } catch (e) {
-      console.log("error", e);
-    }
+    const res = await instance.get("/issues", {
+      icon: false,
+    });
+    console.log(res.data);
+    const newData = res.data.filter((value) => !value.pull_request);
+    return newData;
   }
 );
 
 // addItems
 export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
-  try {
-    const res = await instance.post("/issues", {
-      title: data.title,
-      body: data.body,
-    });
-    console.log(data);
-    return res.data;
-  } catch (e) {
-    console.log("error", e);
-  }
+  const res = await instance.post("/issues", {
+    title: data.title,
+    body: data.body,
+  });
+  return res.data;
 });
 
 // updateItems
 export const updateItems = createAsyncThunk(
   "fetchItem/updateItems",
   async (data) => {
-    try {
-      console.log(data);
-      const res = await instance.patch(`/issues/${data.id}`, {
-        title: data.title,
-        body: data.body,
-        state: data.status,
-      });
-      return res.data;
-    } catch (e) {
-      console.log("error", e);
-    }
+    const res = await instance.patch(`/issues/${data.id}`, {
+      title: data.title,
+      body: data.body,
+      state: data.status,
+    });
+    return res.data;
   }
 );
 
@@ -66,19 +56,12 @@ export const updateItems = createAsyncThunk(
 export const closeItems = createAsyncThunk(
   "fetchItem/closeItems",
   async (data) => {
-    try {
-      debugger;
-      const checkedItems = Object.keys(data);
-      let closeList = {};
-      for await (const value of checkedItems) {
-        console.log(value);
-        closeList = await instance.patch(`/issues/${Number(value)}`, {
-          state: "closed",
-        });
-        return closeList.data;
-      }
-    } catch (e) {
-      console.log("error", e);
+    const checkedItems = Object.keys(data);
+    for await (const value of checkedItems) {
+      console.log(value);
+      await instance.patch(`/issues/${Number(value)}`, {
+        state: "closed",
+      });
     }
   }
 );
@@ -148,10 +131,8 @@ const issue = createSlice({
       })
       .addCase(closeItems.fulfilled, (state, action) => {
         state.status = "closeItems:fulfilled";
-        state.items = state.items.map((value) =>
-          value.id === action.payload.id ? action.payload : value
-        );
-        console.log(action.payload);
+
+        console.log(state.status);
       })
       .addCase(closeItems.rejected, (state, action) => {
         state.status = "closeItems:failed";
@@ -161,5 +142,4 @@ const issue = createSlice({
   },
 });
 
-export const { deleteTodo } = issue.actions;
 export default issue.reducer;
