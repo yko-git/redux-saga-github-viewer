@@ -87,14 +87,13 @@ export default function TableList() {
   const deleteChecked = async () => {
     if (Object.keys(checked).length !== 0) {
       try {
-        await dispatch(closeItems(checked));
+        await dispatch(closeItems(checked)).unwrap();
         setAllCheck(false);
         setChecked({});
-        toast.success("ISSUEを削除しました", {
+        toast.success("issueを削除しました", {
           icon: false,
         });
       } catch (error) {
-        console.log(error);
         toast.error("削除に失敗しました", {
           icon: false,
         });
