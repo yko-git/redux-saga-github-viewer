@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
     a {
-        color: ${variable.textColor};
+        color: ${variable.textColor_a};
     }
   }
 `;

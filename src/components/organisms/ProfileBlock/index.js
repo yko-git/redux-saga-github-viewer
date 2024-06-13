@@ -15,6 +15,9 @@ const FlexBlock = styled.div`
   display: flex;
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const BlockInner = styled.div`
@@ -23,7 +26,18 @@ const BlockInner = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  max-width: 60px;
+  max-width: 120px;
+`;
+
+const ProfileTitle = styled.h4`
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: normal;
+  color: rgb(88, 96, 105);
+`;
+
+const ProfileText = styled.p`
+  font-size: 1rem;
 `;
 
 export default function ProfileBlock() {
@@ -38,37 +52,37 @@ export default function ProfileBlock() {
       <h1>Profile</h1>
       <FlexBlock>
         <BlockInner>
-          <h4>プロフィール</h4>
+          <ProfileTitle>プロフィール</ProfileTitle>
           <div>
             <ProfileImage src={user.avatar_url} alt="プロフィール" />
           </div>
         </BlockInner>
         <BlockInner>
           <div>
-            <h4>ユーザ名</h4>
-            <div>{user.login}</div>
+            <ProfileTitle>ユーザ名</ProfileTitle>
+            <ProfileText>{user.login}</ProfileText>
           </div>
           <div>
-            <h4>アカウントURL</h4>
+            <ProfileTitle>アカウントURL</ProfileTitle>
             <div>
               <Link to={user.html_url}>{user.html_url}</Link>
             </div>
           </div>
           <div>
-            <h4>フォロー数</h4>
-            <div>{user.following}</div>
+            <ProfileTitle>フォロー数</ProfileTitle>
+            <ProfileText>{user.following}</ProfileText>
           </div>
           <div>
-            <h4>フォロワー数</h4>
-            <div>{user.followers}</div>
+            <ProfileTitle>フォロワー数</ProfileTitle>
+            <ProfileText>{user.followers}</ProfileText>
           </div>
           <div>
-            <h4>パブリックレポジトリ数</h4>
-            <div>{user.public_repos}</div>
+            <ProfileTitle>パブリックレポジトリ数</ProfileTitle>
+            <ProfileText>{user.public_repos}</ProfileText>
           </div>
           <div>
-            <h4>プライベートレポジトリ数</h4>
-            <div>{user.totalPrivateRepos}</div>
+            <ProfileTitle>プライベートレポジトリ数</ProfileTitle>
+            <ProfileText>{user.totalPrivateRepos}</ProfileText>
           </div>
         </BlockInner>
       </FlexBlock>
