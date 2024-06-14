@@ -53,7 +53,7 @@ export default function Profile() {
         <BlockInner>
           <ProfileTitle>プロフィール</ProfileTitle>
           <div>
-            <ProfileImage src={user.avatar_url} alt="プロフィール" />
+            <ProfileImage src={user.avatarUrl} alt="プロフィール" />
           </div>
         </BlockInner>
         <BlockInner>
@@ -64,7 +64,7 @@ export default function Profile() {
           <div>
             <ProfileTitle>アカウントURL</ProfileTitle>
             <div>
-              <Link to={user.html_url}>{user.html_url}</Link>
+              <Link to={user.htmlUrl}>{user.htmlUrl}</Link>
             </div>
           </div>
           <div>
@@ -77,7 +77,7 @@ export default function Profile() {
           </div>
           <div>
             <ProfileTitle>パブリックレポジトリ数</ProfileTitle>
-            <ProfileText>{user.public_repos}</ProfileText>
+            <ProfileText>{user.publicRepos}</ProfileText>
           </div>
           <div>
             <ProfileTitle>プライベートレポジトリ数</ProfileTitle>

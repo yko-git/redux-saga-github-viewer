@@ -27,6 +27,9 @@ const user = createSlice({
       })
       .addCase(getUserItems.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.user.avatarUrl = action.payload.avatar_url;
+        state.user.htmlUrl = action.payload.html_url;
+        state.user.publicRepos = action.payload.public_repos;
         state.status = "fulfilled";
       })
 
