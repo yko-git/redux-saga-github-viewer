@@ -1,26 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { instance } from "../GithubAPI";
 
 const initialState = {
   user: {},
 };
 
-const TOKEN = process.env.REACT_APP_TOKEN;
-
-const instance = axios.create({
-  baseURL: "https://api.github.com/users/",
-
-  headers: {
-    Authorization: `token ${TOKEN}`,
-    Accept: "application/vnd.github.v3+json",
-  },
-});
-
 // getUserItems
 export const getUserItems = createAsyncThunk(
   "fetchItem/getUserItems",
   async () => {
-    const res = await instance.get("yko-git");
+    const res = await instance.get("users/yko-git");
     return res.data;
   }
 );

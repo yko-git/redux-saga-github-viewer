@@ -1,26 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { instance } from "../GithubAPI";
 
 const initialState = {
   items: [],
 };
 
-const TOKEN = process.env.REACT_APP_TOKEN;
-
-const instance = axios.create({
-  baseURL: "https://api.github.com/repos/yko-git/redux-saga-github-viewer",
-
-  headers: {
-    Authorization: `token ${TOKEN}`,
-    Accept: "application/vnd.github.v3+json",
-  },
-});
+const issuesUrl = "repos/yko-git/redux-saga-github-viewer/issues";
 
 // getFetchItems
 export const getFetchItems = createAsyncThunk(
   "fetchItem/getFetchItems",
   async () => {
-    const res = await instance.get("/issues", {
+    const res = await instance.get(issuesUrl, {
       icon: false,
     });
     const newData = res.data.filter((value) => !value.pull_request);
@@ -30,7 +21,7 @@ export const getFetchItems = createAsyncThunk(
 
 // addItems
 export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
-  const res = await instance.post("/issues", {
+  const res = await instance.post(issuesUrl, {
     title: data.title,
     body: data.body,
   });
@@ -41,7 +32,7 @@ export const addItems = createAsyncThunk("fetchItem/addItems", async (data) => {
 export const updateItems = createAsyncThunk(
   "fetchItem/updateItems",
   async (data) => {
-    const res = await instance.patch(`/issues/${data.id}`, {
+    const res = await instance.patch(`${issuesUrl}/${data.id}`, {
       title: data.title,
       body: data.body,
       state: data.status,
@@ -56,7 +47,7 @@ export const closeItems = createAsyncThunk(
   async (data) => {
     const checkedItems = Object.keys(data);
     for await (const value of checkedItems) {
-      await instance.patch(`/issues/${Number(value)}`, {
+      await instance.patch(`${issuesUrl}/${Number(value)}`, {
         state: "closed",
       });
     }
