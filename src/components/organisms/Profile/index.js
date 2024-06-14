@@ -40,13 +40,12 @@ const ProfileText = styled.p`
   font-size: 1rem;
 `;
 
-export default function ProfileBlock() {
+export default function Profile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.users);
   useEffect(() => {
     dispatch(getUserItems());
   }, []);
-  console.log(user);
   return (
     <Wrapper>
       <h1>Profile</h1>

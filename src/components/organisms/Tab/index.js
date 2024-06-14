@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import IssueBlock from "../IssueBlock";
-import PullRequestBlock from "../PullRequestBlock";
+import Issue from "../Issue";
+import PullRequest from "../PullRequest";
 
 const TabWrapper = styled.div`
   max-width: 896px;
@@ -34,7 +34,7 @@ const TabLinkItem = styled.li`
 
 const tabs = ["Issue", "Pull Request"];
 
-export default function TabBlock() {
+export default function Tab() {
   const [activetab, setActivetab] = useState(tabs[0]);
 
   return (
@@ -50,7 +50,7 @@ export default function TabBlock() {
           </TabLinkItem>
         ))}
       </TabLinks>
-      <div>{activetab === tabs[0] ? <IssueBlock /> : <PullRequestBlock />}</div>
+      <div>{activetab === tabs[0] ? <Issue /> : <PullRequest />}</div>
     </TabWrapper>
   );
 }

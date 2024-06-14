@@ -1,5 +1,5 @@
 import TableList from "../../molecules/TableList";
 
-export default function IssueBlock() {
+export default function Issue() {
   return <TableList />;
 }

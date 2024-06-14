@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-export default function PullRequestBlock() {
+export default function PullRequest() {
   return (
     <Wrapper>
       <h1>PullRequest</h1>

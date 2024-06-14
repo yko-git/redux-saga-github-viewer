@@ -1,13 +1,13 @@
-import ProfileBlock from "../components/organisms/ProfileBlock";
+import Profile from "../components/organisms/Profile";
 import Header from "../components/organisms/Header";
 
-function Profile() {
+function ProfilePage() {
   return (
     <>
       <Header />
-      <ProfileBlock />
+      <Profile />
     </>
   );
 }
 
-export default Profile;
+export default ProfilePage;
