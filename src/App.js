@@ -1,16 +1,20 @@
+import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
-import Header from "./components/organisms/Header";
-import ModalBlock from "./components/organisms/ModalBlock";
-import TabBlock from "./components/organisms/TabBlock";
+import Modal from "./components/organisms/Modal";
+import Tab from "./components/organisms/Tab";
+import Layout from "./Layout";
 
 function App() {
   const { isOpen } = useSelector((store) => store.modal);
 
   return (
     <div className="App">
-      {isOpen && <ModalBlock />}
-      <Header />
-      <TabBlock />
+      <IconContext.Provider value={{ size: "20px" }}>
+        <Layout>
+          {isOpen && <Modal />}
+          <Tab />
+        </Layout>
+      </IconContext.Provider>
     </div>
   );
 }

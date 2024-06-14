@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import IssueBlock from "../components/organisms/IssueBlock";
-import Header from "../components/organisms/Header";
-import ModalBlock from "../components/organisms/ModalBlock";
+import Issue from "../components/organisms/Issue";
+import Modal from "../components/organisms/Modal";
+import Layout from "../Layout";
 
 const TabWrapper = styled.div`
   max-width: 896px;
@@ -10,17 +10,16 @@ const TabWrapper = styled.div`
   padding: 32px 16px;
 `;
 
-function Issue() {
+function IssuePage() {
   const { isOpen } = useSelector((store) => store.modal);
   return (
-    <>
-      {isOpen && <ModalBlock />}
-      <Header />
+    <Layout>
+      {isOpen && <Modal />}
       <TabWrapper>
-        <IssueBlock />
+        <Issue />
       </TabWrapper>
-    </>
+    </Layout>
   );
 }
 
-export default Issue;
+export default IssuePage;

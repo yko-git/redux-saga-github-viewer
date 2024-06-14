@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import FilterForm from "../FilterForm";
+import FilterForm from "../../molecules/FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -50,24 +49,8 @@ const TableTr = styled.tr`
   }
 `;
 
-const StyledContainer = styled(ToastContainer)`
-  .Toastify__toast {
-    color: #ffffff;
-    border-radius: 0;
-  }
-  .Toastify__toast--success {
-    background-color: rgb(66, 195, 96);
-  }
-  .Toastify__toast--error {
-    background-color: rgb(215, 58, 73);
-  }
-  .Toastify__close-button {
-    color: #ffffff;
-  }
-`;
-
 export default function TableList() {
-  const [filterVal, setFilterVal] = useState("");
+  const [val, onChange] = useState("");
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
@@ -90,13 +73,9 @@ export default function TableList() {
         await dispatch(closeItems(checked)).unwrap();
         setAllCheck(false);
         setChecked({});
-        toast.success("issueを削除しました", {
-          icon: false,
-        });
+        toast.success("issueを削除しました");
       } catch (error) {
-        toast.error("削除に失敗しました", {
-          icon: false,
-        });
+        toast.error("削除に失敗しました");
       }
     }
   };
@@ -120,7 +99,7 @@ export default function TableList() {
 
   return (
     <>
-      <StyledContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={true}
@@ -134,16 +113,19 @@ export default function TableList() {
         icon={false}
       />
       <FilterBlocks>
-        <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
+        <FilterForm val={val} onChange={onChange} />
         <ButtonLinks>
           <ButtonLink
-            children="New"
-            variant="true"
+            variant="primary"
             handleClick={() => {
               dispatch(openModal({}));
             }}
-          />
-          <ButtonLink children="Delete" handleClick={deleteChecked} />
+          >
+            New
+          </ButtonLink>
+          <ButtonLink variant="secondary" handleClick={deleteChecked}>
+            Delete
+          </ButtonLink>
         </ButtonLinks>
       </FilterBlocks>
       <TableWrapper>
@@ -169,8 +151,7 @@ export default function TableList() {
             {items
               .filter(
                 (value) =>
-                  value.title.indexOf(filterVal) !== -1 &&
-                  value.state !== "closed"
+                  value.title.indexOf(val) !== -1 && value.state !== "closed"
               )
               .map((value) => (
                 <TableTr

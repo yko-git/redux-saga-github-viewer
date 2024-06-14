@@ -24,7 +24,7 @@ const FilterInput = styled.input`
   width: 100%;
 `;
 
-export default function FilterForm({ filterVal, setFilterVal }) {
+export default function FilterForm({ val, onChange }) {
   return (
     <>
       <FilterWrapper>
@@ -33,8 +33,8 @@ export default function FilterForm({ filterVal, setFilterVal }) {
           <FilterInput
             type="text"
             placeholder="issue名で検索"
-            value={filterVal}
-            onChange={(e) => setFilterVal(e.target.value)}
+            value={val}
+            onChange={(e) => onChange(e.target.value)}
           />
         </FilterInputWrapper>
       </FilterWrapper>

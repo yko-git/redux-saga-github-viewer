@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import Modal from "react-modal";
-import ButtonLink from "../../atoms/Button";
+import Button from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateItems, addItems } from "../../../redux/issueSlice";
@@ -106,13 +106,9 @@ const ModalBlock = () => {
       setTitle("");
       setBody("");
       dispatch(closeModal());
-      toast.success("issueを作成しました", {
-        icon: false,
-      });
+      toast.success("issueを作成しました");
     } catch (error) {
-      toast.error("作成に失敗しました", {
-        icon: false,
-      });
+      toast.error("作成に失敗しました");
     }
   };
 
@@ -121,13 +117,9 @@ const ModalBlock = () => {
     try {
       await dispatch(updateItems(newTodo)).unwrap();
       dispatch(closeModal());
-      toast.success("issueを更新しました", {
-        icon: false,
-      });
+      toast.success("issueを更新しました");
     } catch (error) {
-      toast.error("更新に失敗しました", {
-        icon: false,
-      });
+      toast.error("更新に失敗しました");
     }
   };
 
@@ -141,6 +133,8 @@ const ModalBlock = () => {
   const handleSelectForm = (e) => {
     setIssueStatus(e.target.value);
   };
+
+  const isEdit = !!id;
 
   return (
     <>
@@ -169,7 +163,7 @@ const ModalBlock = () => {
               </TextAreaField>
             </InputBlock>
           </InputArea>
-          {id && (
+          {isEdit && (
             <>
               <InputLavel>
                 <div>
@@ -188,18 +182,14 @@ const ModalBlock = () => {
             </>
           )}
           <Buttons>
-            {id ? (
-              <ButtonLink
-                variant="true"
-                children="更新"
-                handleClick={handleUpdateTodo}
-              />
+            {isEdit ? (
+              <Button variant="primary" handleClick={handleUpdateTodo}>
+                更新
+              </Button>
             ) : (
-              <ButtonLink
-                variant="true"
-                children="作成"
-                handleClick={handleAddTodo}
-              />
+              <Button variant="primary" handleClick={handleAddTodo}>
+                作成
+              </Button>
             )}
             <CloseLink onClick={() => dispatch(closeModal())}>閉じる</CloseLink>
           </Buttons>
