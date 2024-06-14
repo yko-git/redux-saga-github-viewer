@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import FilterForm from "../FilterForm";
+import FilterForm from "../../molecules/FilterForm";
 import ButtonLink from "../../atoms/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
