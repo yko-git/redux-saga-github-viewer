@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -47,22 +46,6 @@ const TableTr = styled.tr`
   cursor: pointer;
   &:hover {
     background: rgba(198, 218, 230, 0.25);
-  }
-`;
-
-const StyledContainer = styled(ToastContainer)`
-  .Toastify__toast {
-    color: #ffffff;
-    border-radius: 0;
-  }
-  .Toastify__toast--success {
-    background-color: rgb(66, 195, 96);
-  }
-  .Toastify__toast--error {
-    background-color: rgb(215, 58, 73);
-  }
-  .Toastify__close-button {
-    color: #ffffff;
   }
 `;
 
@@ -116,7 +99,7 @@ export default function TableList() {
 
   return (
     <>
-      <StyledContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={true}

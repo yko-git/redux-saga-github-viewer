@@ -7,6 +7,7 @@ import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import App from "./App";
+import "react-toastify/dist/ReactToastify.css";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -26,6 +27,19 @@ const GlobalStyle = createGlobalStyle`
     a {
         color: var(--main-linkColor);
     }
+  }
+  .Toastify__toast {
+    color: #ffffff;
+    border-radius: 0;
+  }
+  .Toastify__toast--success {
+    background-color: rgb(66, 195, 96);
+  }
+  .Toastify__toast--error {
+    background-color: rgb(215, 58, 73);
+  }
+  .Toastify__close-button {
+    color: #ffffff;
   }
 `;
 
