@@ -50,7 +50,7 @@ const TableTr = styled.tr`
 `;
 
 export default function TableList() {
-  const [filterVal, setFilterVal] = useState("");
+  const [val, onChange] = useState("");
   const [allCheck, setAllCheck] = useState(false);
   const [checked, setChecked] = useState({});
 
@@ -113,7 +113,7 @@ export default function TableList() {
         icon={false}
       />
       <FilterBlocks>
-        <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
+        <FilterForm val={val} onChange={onChange} />
         <ButtonLinks>
           <ButtonLink
             variant="primary"
@@ -151,8 +151,7 @@ export default function TableList() {
             {items
               .filter(
                 (value) =>
-                  value.title.indexOf(filterVal) !== -1 &&
-                  value.state !== "closed"
+                  value.title.indexOf(val) !== -1 && value.state !== "closed"
               )
               .map((value) => (
                 <TableTr
