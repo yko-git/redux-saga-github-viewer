@@ -1,4 +1,3 @@
-import { IconContext } from "react-icons";
 import styled from "styled-components";
 import { FiMenu } from "react-icons/fi";
 
@@ -11,9 +10,7 @@ const NavIconArea = styled.div`
 export default function NavIcon() {
   return (
     <NavIconArea>
-      <IconContext.Provider value={{ size: "20px" }}>
-        <FiMenu />
-      </IconContext.Provider>
+      <FiMenu />
     </NavIconArea>
   );
 }

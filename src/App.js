@@ -1,3 +1,4 @@
+import { IconContext } from "react-icons";
 import { useSelector } from "react-redux";
 import Header from "./components/organisms/Header";
 import Modal from "./components/organisms/Modal";
@@ -8,9 +9,11 @@ function App() {
 
   return (
     <div className="App">
-      {isOpen && <Modal />}
-      <Header />
-      <Tab />
+      <IconContext.Provider value={{ size: "20px" }}>
+        {isOpen && <Modal />}
+        <Header />
+        <Tab />
+      </IconContext.Provider>
     </div>
   );
 }
