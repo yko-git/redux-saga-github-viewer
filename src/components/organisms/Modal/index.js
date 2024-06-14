@@ -142,6 +142,8 @@ const ModalBlock = () => {
     setIssueStatus(e.target.value);
   };
 
+  const isEdit = !!id;
+
   return (
     <>
       <ModalWrapper>
@@ -169,7 +171,7 @@ const ModalBlock = () => {
               </TextAreaField>
             </InputBlock>
           </InputArea>
-          {id && (
+          {isEdit && (
             <>
               <InputLavel>
                 <div>
@@ -188,7 +190,7 @@ const ModalBlock = () => {
             </>
           )}
           <Buttons>
-            {id ? (
+            {isEdit ? (
               <Button variant="primary" handleClick={handleUpdateTodo}>
                 更新
               </Button>
