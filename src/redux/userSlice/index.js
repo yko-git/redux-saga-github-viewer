@@ -21,7 +21,6 @@ export const getUserItems = createAsyncThunk(
   "fetchItem/getUserItems",
   async () => {
     const res = await instance.get("yko-git");
-    console.log(res.data);
     return res.data;
   }
 );
@@ -36,17 +35,14 @@ const user = createSlice({
       // getUserItems
       .addCase(getUserItems.pending, (state) => {
         state.status = "pending";
-        console.log(state.status);
       })
       .addCase(getUserItems.fulfilled, (state, action) => {
         state.user = action.payload;
         state.status = "fulfilled";
-        console.log(state.status);
       })
 
       .addCase(getUserItems.rejected, (state, action) => {
         state.status = "failed";
-        console.log(state.status);
         state.error = action.error.message;
       });
   },
