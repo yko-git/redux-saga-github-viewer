@@ -90,13 +90,9 @@ export default function TableList() {
         await dispatch(closeItems(checked)).unwrap();
         setAllCheck(false);
         setChecked({});
-        toast.success("issueを削除しました", {
-          icon: false,
-        });
+        toast.success("issueを削除しました");
       } catch (error) {
-        toast.error("削除に失敗しました", {
-          icon: false,
-        });
+        toast.error("削除に失敗しました");
       }
     }
   };

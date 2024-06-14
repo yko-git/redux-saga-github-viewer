@@ -106,13 +106,9 @@ const ModalBlock = () => {
       setTitle("");
       setBody("");
       dispatch(closeModal());
-      toast.success("issueを作成しました", {
-        icon: false,
-      });
+      toast.success("issueを作成しました");
     } catch (error) {
-      toast.error("作成に失敗しました", {
-        icon: false,
-      });
+      toast.error("作成に失敗しました");
     }
   };
 
@@ -121,13 +117,9 @@ const ModalBlock = () => {
     try {
       await dispatch(updateItems(newTodo)).unwrap();
       dispatch(closeModal());
-      toast.success("issueを更新しました", {
-        icon: false,
-      });
+      toast.success("issueを更新しました");
     } catch (error) {
-      toast.error("更新に失敗しました", {
-        icon: false,
-      });
+      toast.error("更新に失敗しました");
     }
   };
 
