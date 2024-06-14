@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import Modal from "react-modal";
-import ButtonLink from "../../atoms/Button";
+import Button from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateItems, addItems } from "../../../redux/issueSlice";
@@ -189,17 +189,13 @@ const ModalBlock = () => {
           )}
           <Buttons>
             {id ? (
-              <ButtonLink
-                variant="true"
-                children="更新"
-                handleClick={handleUpdateTodo}
-              />
+              <Button variant="primary" handleClick={handleUpdateTodo}>
+                更新
+              </Button>
             ) : (
-              <ButtonLink
-                variant="true"
-                children="作成"
-                handleClick={handleAddTodo}
-              />
+              <Button variant="primary" handleClick={handleAddTodo}>
+                作成
+              </Button>
             )}
             <CloseLink onClick={() => dispatch(closeModal())}>閉じる</CloseLink>
           </Buttons>

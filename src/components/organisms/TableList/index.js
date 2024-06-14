@@ -137,13 +137,16 @@ export default function TableList() {
         <FilterForm filterVal={filterVal} setFilterVal={setFilterVal} />
         <ButtonLinks>
           <ButtonLink
-            children="New"
-            variant="true"
+            variant="primary"
             handleClick={() => {
               dispatch(openModal({}));
             }}
-          />
-          <ButtonLink children="Delete" handleClick={deleteChecked} />
+          >
+            New
+          </ButtonLink>
+          <ButtonLink variant="secondary" handleClick={deleteChecked}>
+            Delete
+          </ButtonLink>
         </ButtonLinks>
       </FilterBlocks>
       <TableWrapper>
