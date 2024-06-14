@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  user: [],
+  user: {},
 };
 
 const TOKEN = process.env.REACT_APP_TOKEN;
