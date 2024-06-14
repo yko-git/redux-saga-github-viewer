@@ -1,12 +1,11 @@
 import Profile from "../components/organisms/Profile";
-import Header from "../components/organisms/Header";
+import Layout from "../Layout";
 
 function ProfilePage() {
   return (
-    <>
-      <Header />
+    <Layout>
       <Profile />
-    </>
+    </Layout>
   );
 }
 

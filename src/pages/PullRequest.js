@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PullRequest from "../components/organisms/PullRequest";
-import Header from "../components/organisms/Header";
+import Layout from "../Layout";
 const TabWrapper = styled.div`
   max-width: 896px;
   margin: 0 auto;
@@ -9,12 +9,11 @@ const TabWrapper = styled.div`
 
 function PullRequestPage() {
   return (
-    <>
-      <Header />
+    <Layout>
       <TabWrapper>
         <PullRequest />
       </TabWrapper>
-    </>
+    </Layout>
   );
 }
 
