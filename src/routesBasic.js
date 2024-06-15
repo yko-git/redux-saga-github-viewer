@@ -19,7 +19,7 @@ const routesBasic = createBrowserRouter(
     </>
   ),
   {
-    basename: "/redux-github-viewer",
+    basename: ".",
   }
 );
 
