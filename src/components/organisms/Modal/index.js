@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateItems, addItems } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 import { toast } from "react-toastify";
+import ErrorMessage from "../../atoms/ErrorMessage";
 
 Modal.setAppElement("#root");
 
@@ -95,31 +96,47 @@ const ModalBlock = () => {
   const [title, setTitle] = useState(form.title);
   const [body, setBody] = useState(form.body);
   const [status, setIssueStatus] = useState(form.state);
+  const [erros, setErros] = useState("");
 
   const dispatch = useDispatch();
 
+  const errorTitle = "タイトルを入力してください";
+  const errorBody = "説明を入力してください";
+
   const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
-    try {
-      await dispatch(addItems(newTodo)).unwrap();
-      setId("");
-      setTitle("");
-      setBody("");
-      dispatch(closeModal());
-      toast.success("issueを作成しました");
-    } catch (error) {
-      toast.error("作成に失敗しました");
+    if (!title) {
+      setErros(<ErrorMessage>{errorTitle}</ErrorMessage>);
+    } else if (!body) {
+      setErros(<ErrorMessage>{errorBody}</ErrorMessage>);
+    } else {
+      try {
+        await dispatch(addItems(newTodo)).unwrap();
+        setId("");
+        setTitle("");
+        setBody("");
+        dispatch(closeModal());
+        toast.success("issueを作成しました");
+      } catch (error) {
+        toast.error("作成に失敗しました");
+      }
     }
   };
 
   const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
-    try {
-      await dispatch(updateItems(newTodo)).unwrap();
-      dispatch(closeModal());
-      toast.success("issueを更新しました");
-    } catch (error) {
-      toast.error("更新に失敗しました");
+    if (!title) {
+      setErros(<ErrorMessage>{errorTitle}</ErrorMessage>);
+    } else if (!body) {
+      setErros(<ErrorMessage>{errorBody}</ErrorMessage>);
+    } else {
+      try {
+        await dispatch(updateItems(newTodo)).unwrap();
+        dispatch(closeModal());
+        toast.success("issueを更新しました");
+      } catch (error) {
+        toast.error("更新に失敗しました");
+      }
     }
   };
 
@@ -163,6 +180,8 @@ const ModalBlock = () => {
               </TextAreaField>
             </InputBlock>
           </InputArea>
+
+          {erros && <>{erros}</>}
           {isEdit && (
             <>
               <InputLavel>
