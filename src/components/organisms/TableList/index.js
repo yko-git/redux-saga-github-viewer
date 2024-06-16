@@ -194,8 +194,8 @@ export default function TableList() {
                   </TableTd>
                   <TableTd>{value.state}</TableTd>
                   <TableTd>{value.user.login}</TableTd>
-                  <TableTd>{value.created_at}</TableTd>
-                  <TableTd>{value.updated_at}</TableTd>
+                  <TableTd>{value.created_at.substr(0, 10)}</TableTd>
+                  <TableTd>{value.updated_at.substr(0, 10)}</TableTd>
                 </TableTr>
               ))}
           </tbody>
