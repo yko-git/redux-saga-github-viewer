@@ -11,10 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 const GlobalStyle = createGlobalStyle`
   body {
-    --main-textColor: "#333";
-    --main-linkColor: "rgb(3; 102; 214)";
-    --main-textSize: "14px";
-    --main-lineHeight: "1.5";
+    --main-textColor: #333;
+    --main-linkColor: rgb(3, 102, 214);
+    --main-textSize: 14px;
+    --main-lineHeight: 1.5;
     margin: 0;
     padding: 0;
     font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
