@@ -106,9 +106,9 @@ const ModalBlock = () => {
   const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
     if (!title) {
-      setErros(<ErrorMessage>{errorTitle}</ErrorMessage>);
+      setErros(errorTitle);
     } else if (!body) {
-      setErros(<ErrorMessage>{errorBody}</ErrorMessage>);
+      setErros(errorBody);
     } else {
       try {
         await dispatch(addItems(newTodo)).unwrap();
@@ -126,9 +126,9 @@ const ModalBlock = () => {
   const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
     if (!title) {
-      setErros(<ErrorMessage>{errorTitle}</ErrorMessage>);
+      setErros(errorTitle);
     } else if (!body) {
-      setErros(<ErrorMessage>{errorBody}</ErrorMessage>);
+      setErros(errorBody);
     } else {
       try {
         await dispatch(updateItems(newTodo)).unwrap();
@@ -181,7 +181,7 @@ const ModalBlock = () => {
             </InputBlock>
           </InputArea>
 
-          {erros && <>{erros}</>}
+          {erros && <ErrorMessage>{erros}</ErrorMessage>}
           {isEdit && (
             <>
               <InputLavel>
