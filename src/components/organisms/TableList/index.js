@@ -183,14 +183,9 @@ export default function TableList() {
                     />
                   </TableTd>
                   <TableTd $width>
-                    <Link
-                      onClick={(e) => {
-                        window.open(value.html_url, "_blank");
-                        e.stopPropagation();
-                      }}
-                    >
+                    <a href={value.html_url} rel="noreferrer" target="_blank">
                       {value.title}
-                    </Link>
+                    </a>
                   </TableTd>
                   <TableTd>{value.state}</TableTd>
                   <TableTd>{value.user.login}</TableTd>
