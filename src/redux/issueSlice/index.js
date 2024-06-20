@@ -67,6 +67,7 @@ const issue = createSlice({
       })
       .addCase(getFetchItems.fulfilled, (state, action) => {
         state.items = action.payload;
+        console.log(state.items.created_at);
         state.status = "fulfilled";
       })
 
