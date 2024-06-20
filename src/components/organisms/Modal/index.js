@@ -106,37 +106,35 @@ const ModalBlock = () => {
   const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
     if (!title) {
-      setErros(errorTitle);
+      return setErros(errorTitle);
     } else if (!body) {
-      setErros(errorBody);
-    } else {
-      try {
-        await dispatch(addItems(newTodo)).unwrap();
-        setId("");
-        setTitle("");
-        setBody("");
-        dispatch(closeModal());
-        toast.success("issueを作成しました");
-      } catch (error) {
-        toast.error("作成に失敗しました");
-      }
+      return setErros(errorBody);
+    }
+    try {
+      await dispatch(addItems(newTodo)).unwrap();
+      setId("");
+      setTitle("");
+      setBody("");
+      dispatch(closeModal());
+      toast.success("issueを作成しました");
+    } catch (error) {
+      toast.error("作成に失敗しました");
     }
   };
 
   const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
     if (!title) {
-      setErros(errorTitle);
+      return setErros(errorTitle);
     } else if (!body) {
-      setErros(errorBody);
-    } else {
-      try {
-        await dispatch(updateItems(newTodo)).unwrap();
-        dispatch(closeModal());
-        toast.success("issueを更新しました");
-      } catch (error) {
-        toast.error("更新に失敗しました");
-      }
+      return setErros(errorBody);
+    }
+    try {
+      await dispatch(updateItems(newTodo)).unwrap();
+      dispatch(closeModal());
+      toast.success("issueを更新しました");
+    } catch (error) {
+      toast.error("更新に失敗しました");
     }
   };
 
