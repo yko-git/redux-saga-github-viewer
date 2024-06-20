@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 const FilterBlocks = styled.div`
   display: flex;
