@@ -182,14 +182,21 @@ export default function TableList() {
                     />
                   </TableTd>
                   <TableTd $width>
-                    <a href={value.html_url} rel="noreferrer" target="_blank">
+                    <a
+                      href={value.htmlUrl}
+                      rel="noreferrer"
+                      target="_blank"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
                       {value.title}
                     </a>
                   </TableTd>
                   <TableTd>{value.state}</TableTd>
                   <TableTd>{value.user.login}</TableTd>
-                  <TableTd>{value.created_at.substr(0, 10)}</TableTd>
-                  <TableTd>{value.updated_at.substr(0, 10)}</TableTd>
+                  <TableTd>{value.createdAt}</TableTd>
+                  <TableTd>{value.updatedAt}</TableTd>
                 </TableTr>
               ))}
           </tbody>
