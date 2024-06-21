@@ -100,16 +100,23 @@ const ModalBlock = () => {
 
   const dispatch = useDispatch();
 
-  const errorTitle = "タイトルを入力してください";
-  const errorBody = "説明を入力してください";
+  const errorFunc = () => {
+    const errorTitle = "タイトルを入力してください";
+    const errorBody = "説明を入力してください";
+    if (!title) {
+      return errorTitle;
+    } else if (!body) {
+      return errorBody;
+    }
+  };
 
   const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
-    if (!title) {
-      return setErros(errorTitle);
-    } else if (!body) {
-      return setErros(errorBody);
+    const error = errorFunc();
+    if (error) {
+      return setErros(<ErrorMessage>{error}</ErrorMessage>);
     }
+
     try {
       await dispatch(addItems(newTodo)).unwrap();
       setId("");
@@ -124,10 +131,9 @@ const ModalBlock = () => {
 
   const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
-    if (!title) {
-      return setErros(errorTitle);
-    } else if (!body) {
-      return setErros(errorBody);
+    const error = errorFunc();
+    if (error) {
+      return setErros(<ErrorMessage>{error}</ErrorMessage>);
     }
     try {
       await dispatch(updateItems(newTodo)).unwrap();
@@ -179,7 +185,7 @@ const ModalBlock = () => {
             </InputBlock>
           </InputArea>
 
-          {erros && <ErrorMessage>{erros}</ErrorMessage>}
+          {erros}
           {isEdit && (
             <>
               <InputLavel>
