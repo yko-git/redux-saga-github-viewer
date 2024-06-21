@@ -9,9 +9,5 @@ const ErrorMessageBlock = styled.div`
 `;
 
 export default function ErrorMessage({ children }) {
-  return (
-    <>
-      <ErrorMessageBlock>{children}</ErrorMessageBlock>
-    </>
-  );
+  return <ErrorMessageBlock>{children}</ErrorMessageBlock>;
 }

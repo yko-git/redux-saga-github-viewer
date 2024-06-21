@@ -67,6 +67,17 @@ const issue = createSlice({
       })
       .addCase(getFetchItems.fulfilled, (state, action) => {
         state.items = action.payload;
+
+        for (let i = 0; i < state.items.length; i++) {
+          state.items[i].createdAt = action.payload[i].created_at.substr(0, 10);
+          delete state.items[i].created_at;
+
+          state.items[i].updatedAt = action.payload[i].updated_at.substr(0, 10);
+          delete state.items[i].updated_at;
+
+          state.items[i].htmlUrl = action.payload[i].html_url;
+          delete state.items[i].html_url;
+        }
         state.status = "fulfilled";
       })
 

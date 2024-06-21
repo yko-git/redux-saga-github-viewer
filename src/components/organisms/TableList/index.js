@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { closeItems, getFetchItems } from "../../../redux/issueSlice";
 import { openModal } from "../../../redux/modalSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { Link } from "react-router-dom";
 
 const FilterBlocks = styled.div`
   display: flex;
@@ -183,19 +182,21 @@ export default function TableList() {
                     />
                   </TableTd>
                   <TableTd $width>
-                    <Link
+                    <a
+                      href={value.htmlUrl}
+                      rel="noreferrer"
+                      target="_blank"
                       onClick={(e) => {
-                        window.open(value.html_url, "_blank");
                         e.stopPropagation();
                       }}
                     >
                       {value.title}
-                    </Link>
+                    </a>
                   </TableTd>
                   <TableTd>{value.state}</TableTd>
                   <TableTd>{value.user.login}</TableTd>
-                  <TableTd>{value.created_at.substr(0, 10)}</TableTd>
-                  <TableTd>{value.updated_at.substr(0, 10)}</TableTd>
+                  <TableTd>{value.createdAt}</TableTd>
+                  <TableTd>{value.updatedAt}</TableTd>
                 </TableTr>
               ))}
           </tbody>
