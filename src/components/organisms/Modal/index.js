@@ -8,6 +8,7 @@ import { updateItems, addItems } from "../../../redux/issueSlice";
 import { closeModal } from "../../../redux/modalSlice";
 import { toast } from "react-toastify";
 import ErrorMessage from "../../atoms/ErrorMessage";
+import { getFetchItems } from "../../../redux/issueSlice";
 
 Modal.setAppElement("#root");
 
@@ -127,6 +128,7 @@ const ModalBlock = () => {
     } catch (error) {
       toast.error("作成に失敗しました");
     }
+    dispatch(getFetchItems());
   };
 
   const handleUpdateTodo = async () => {
@@ -142,6 +144,7 @@ const ModalBlock = () => {
     } catch (error) {
       toast.error("更新に失敗しました");
     }
+    dispatch(getFetchItems());
   };
 
   const handleInputChange = (e) => {
