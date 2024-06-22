@@ -21,25 +21,18 @@ export const getFetchItems = createAsyncThunk(
         created_at: createdAt,
         updated_at: updatedAt,
         html_url: htmlUrl,
-        title,
-        body,
-        state,
-        number,
         user: { login },
-        id,
+        ...rest
       } = newData[i];
       newData[i] = {
         createdAt: createdAt.substr(0, 10),
         updatedAt: updatedAt.substr(0, 10),
-        htmlUrl,
-        title,
-        body,
-        state,
-        number,
         user: { login },
-        id,
+        htmlUrl,
+        ...rest,
       };
     }
+    console.log(newData);
     return newData;
   }
 );
