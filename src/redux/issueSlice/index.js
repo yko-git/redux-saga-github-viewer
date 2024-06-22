@@ -30,7 +30,6 @@ export const getFetchItems = createAsyncThunk(
         ...rest,
       };
     }
-    console.log(newData);
     return newData;
   }
 );
