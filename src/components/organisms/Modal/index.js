@@ -101,7 +101,7 @@ const ModalBlock = () => {
 
   const dispatch = useDispatch();
 
-  const errorFunc = () => {
+  const validate = () => {
     const errorTitle = "タイトルを入力してください";
     const errorBody = "説明を入力してください";
     if (!title) {
@@ -113,9 +113,9 @@ const ModalBlock = () => {
 
   const handleAddTodo = async () => {
     const newTodo = { id, title, body, status };
-    const error = errorFunc();
+    const error = validate();
     if (error) {
-      return setErros(<ErrorMessage>{error}</ErrorMessage>);
+      return setErros(error);
     }
 
     try {
@@ -133,9 +133,9 @@ const ModalBlock = () => {
 
   const handleUpdateTodo = async () => {
     const newTodo = { id, title, body, status };
-    const error = errorFunc();
+    const error = validate();
     if (error) {
-      return setErros(<ErrorMessage>{error}</ErrorMessage>);
+      return setErros(error);
     }
     try {
       await dispatch(updateItems(newTodo)).unwrap();
@@ -188,7 +188,7 @@ const ModalBlock = () => {
             </InputBlock>
           </InputArea>
 
-          {erros}
+          {erros && <ErrorMessage>{erros}</ErrorMessage>}
           {isEdit && (
             <>
               <InputLavel>
