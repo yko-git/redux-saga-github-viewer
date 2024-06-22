@@ -21,13 +21,11 @@ export const getFetchItems = createAsyncThunk(
         created_at: createdAt,
         updated_at: updatedAt,
         html_url: htmlUrl,
-        user: { login },
         ...rest
       } = newData[i];
       newData[i] = {
         createdAt: createdAt.substr(0, 10),
         updatedAt: updatedAt.substr(0, 10),
-        user: { login },
         htmlUrl,
         ...rest,
       };
