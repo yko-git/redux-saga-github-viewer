@@ -15,6 +15,31 @@ export const getFetchItems = createAsyncThunk(
       icon: false,
     });
     const newData = res.data.filter((value) => !value.pull_request);
+
+    for (let i = 0; i < newData.length; i++) {
+      const {
+        created_at: createdAt,
+        updated_at: updatedAt,
+        html_url: htmlUrl,
+        title,
+        body,
+        state,
+        number,
+        user: { login },
+        id,
+      } = newData[i];
+      newData[i] = {
+        createdAt: createdAt.substr(0, 10),
+        updatedAt: updatedAt.substr(0, 10),
+        htmlUrl,
+        title,
+        body,
+        state,
+        number,
+        user: { login },
+        id,
+      };
+    }
     return newData;
   }
 );
@@ -67,17 +92,6 @@ const issue = createSlice({
       })
       .addCase(getFetchItems.fulfilled, (state, action) => {
         state.items = action.payload;
-
-        for (let i = 0; i < state.items.length; i++) {
-          state.items[i].createdAt = action.payload[i].created_at.substr(0, 10);
-          delete state.items[i].created_at;
-
-          state.items[i].updatedAt = action.payload[i].updated_at.substr(0, 10);
-          delete state.items[i].updated_at;
-
-          state.items[i].htmlUrl = action.payload[i].html_url;
-          delete state.items[i].html_url;
-        }
         state.status = "fulfilled";
       })
 
